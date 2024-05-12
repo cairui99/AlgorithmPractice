@@ -1,32 +1,32 @@
-package Code_12_SmallSum;
+package Code_03_MergeSort;
 
-public class SmallSum {
+import java.util.Arrays;
 
-    public static int smallSum(int[] arr) {
+public class MergeSort {
+
+    public static void mergeSort(int[] arr) {
         if (arr == null || arr.length < 2) {
-            return 0;
+            return;
         }
-        return mergeSort(arr, 0, arr.length - 1);
+        mergeSort(arr, 0, arr.length - 1);
     }
 
-    public static int mergeSort(int[] arr, int l, int r) {
+    public static void mergeSort(int[] arr, int l, int r) {
         if (l == r) {
-            return 0;
+            return;
         }
         int mid = (l + r) / 2;
-        return mergeSort(arr, l, mid) + mergeSort(arr, mid + 1, r) + merge(arr, l, mid, r);
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid + 1, r);
+        merge(arr, l, mid, r);
     }
 
-    public static int merge(int[] arr, int l, int m, int r) {
+    public static void merge(int[] arr, int l, int m, int r) {
         int[] arr2 = new int[r - l + 1];
         int index = 0;
         int index_l = l;
         int index_r = m + 1;
-        int smallSum = 0;
         while (index_l <= m && index_r <= r) {
-            if (arr[index_l] < arr[index_r]) {
-                smallSum += (r - index_r + 1) * arr[index_l];
-            }
             arr2[index++] = (arr[index_l] < arr[index_r]) ? arr[index_l++] : arr[index_r++];
         }
         if (index_l > m) {
@@ -39,21 +39,11 @@ public class SmallSum {
             }
         }
         System.arraycopy(arr2, 0, arr, l, arr2.length);
-        return smallSum;
     }
 
     // for test
-    public static int comparator(int[] arr) {
-        if (arr == null || arr.length < 2) {
-            return 0;
-        }
-        int res = 0;
-        for (int i = 1; i < arr.length; i++) {
-            for (int j = 0; j < i; j++) {
-                res += arr[j] < arr[i] ? arr[j] : 0;
-            }
-        }
-        return res;
+    public static void comparator(int[] arr) {
+        Arrays.sort(arr);
     }
 
     // for test
@@ -71,9 +61,7 @@ public class SmallSum {
             return null;
         }
         int[] res = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            res[i] = arr[i];
-        }
+        System.arraycopy(arr, 0, res, 0, arr.length);
         return res;
     }
 
@@ -82,7 +70,7 @@ public class SmallSum {
         if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
             return false;
         }
-        if (arr1 == null && arr2 == null) {
+        if (arr1 == null) {
             return true;
         }
         if (arr1.length != arr2.length) {
@@ -101,8 +89,8 @@ public class SmallSum {
         if (arr == null) {
             return;
         }
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
+        for (int j : arr) {
+            System.out.print(j + " ");
         }
         System.out.println();
     }
@@ -116,7 +104,9 @@ public class SmallSum {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            if (smallSum(arr1) != comparator(arr2)) {
+            mergeSort(arr1);
+            comparator(arr2);
+            if (!isEqual(arr1, arr2)) {
                 succeed = false;
                 printArray(arr1);
                 printArray(arr2);
@@ -124,6 +114,12 @@ public class SmallSum {
             }
         }
         System.out.println(succeed ? "Nice!" : "Fucking fucked!");
+
+        int[] arr = generateRandomArray(maxSize, maxValue);
+        printArray(arr);
+        mergeSort(arr);
+        printArray(arr);
+
     }
 
 }
