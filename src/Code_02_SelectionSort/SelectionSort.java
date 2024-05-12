@@ -1,24 +1,23 @@
-package Code_00_BubbleSort;
+package Code_02_SelectionSort;
 
 import java.util.Arrays;
 
-/**
- * 冒泡排序
- */
-public class BubbleSort {
+public class SelectionSort {
 
-    public static void bubbleSort(int[] arr) {
+    public static void selectionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
+            int minIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
                 }
             }
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
         }
     }
 
@@ -42,7 +41,9 @@ public class BubbleSort {
             return null;
         }
         int[] res = new int[arr.length];
-        System.arraycopy(arr, 0, res, 0, arr.length);
+        for (int i = 0; i < arr.length; i++) {
+            res[i] = arr[i];
+        }
         return res;
     }
 
@@ -51,7 +52,7 @@ public class BubbleSort {
         if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
             return false;
         }
-        if (arr1 == null) {
+        if (arr1 == null && arr2 == null) {
             return true;
         }
         if (arr1.length != arr2.length) {
@@ -70,12 +71,13 @@ public class BubbleSort {
         if (arr == null) {
             return;
         }
-        for (int j : arr) {
-            System.out.print(j + " ");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
         }
         System.out.println();
     }
 
+    // for test
     public static void main(String[] args) {
         int testTime = 500000;
         int maxSize = 100;
@@ -84,10 +86,12 @@ public class BubbleSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            bubbleSort(arr1);
+            selectionSort(arr1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
+                printArray(arr1);
+                printArray(arr2);
                 break;
             }
         }
@@ -95,7 +99,7 @@ public class BubbleSort {
 
         int[] arr = generateRandomArray(maxSize, maxValue);
         printArray(arr);
-        bubbleSort(arr);
+        selectionSort(arr);
         printArray(arr);
     }
 

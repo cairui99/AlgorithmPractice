@@ -1,23 +1,24 @@
-package Code_00_BubbleSort;
+package Code_01_InsertionSort;
 
 import java.util.Arrays;
 
 /**
- * 冒泡排序
+ * 插入排序
  */
-public class BubbleSort {
+public class InsertionSort {
 
-    public static void bubbleSort(int[] arr) {
+    public static void insertionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = i; j > 0; j--) {
+                if (arr[j] >= arr[j - 1]) {
+                    break;
                 }
+                int tmp = arr[j];
+                arr[j] = arr[j - 1];
+                arr[j - 1] = tmp;
             }
         }
     }
@@ -76,6 +77,7 @@ public class BubbleSort {
         System.out.println();
     }
 
+    // for test
     public static void main(String[] args) {
         int testTime = 500000;
         int maxSize = 100;
@@ -84,7 +86,7 @@ public class BubbleSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            bubbleSort(arr1);
+            insertionSort(arr1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
@@ -95,7 +97,7 @@ public class BubbleSort {
 
         int[] arr = generateRandomArray(maxSize, maxValue);
         printArray(arr);
-        bubbleSort(arr);
+        insertionSort(arr);
         printArray(arr);
     }
 
