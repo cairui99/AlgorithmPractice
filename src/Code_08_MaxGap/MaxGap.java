@@ -23,7 +23,7 @@ public class MaxGap {
             return 0;
         }
 
-        //每个桶的范围
+        //每个桶的范围。
         float difference =  (float) (max - min) / nums.length;
 
         int[] barrels_min = new int[nums.length + 1];
