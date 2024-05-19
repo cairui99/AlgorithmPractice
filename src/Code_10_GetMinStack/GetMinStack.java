@@ -30,4 +30,5 @@ public class GetMinStack {
         return minStack.peek();
     }
 
+
 }
